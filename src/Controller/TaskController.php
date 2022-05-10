@@ -16,13 +16,12 @@ class TaskController extends AbstractController
     {
         // prueba de entidades y relaciones
         // $em = $doctrine->getManager();
-        $task_repo = $doctrine->getRepository(Usuers::class);
+        $task_repo = $doctrine->getRepository(Tasks::class);
         $tasks = $task_repo->findAll();
-        // foreach ($tasks as $task) {
-        //     echo $task->getUser->getEmail . ' ' . $task->getTitle . '</br>';
-        // }
+        foreach ($tasks as $task) {
+            echo  $task->getUser()->getEmail().' '. $task->getTitle() .' '. $task->getContent() . '</br>';
+        }
 
-        var_dump($tasks);
         return $this->render('task/index.html.twig', [
             'controller_name' => 'TaskController',
         ]);
