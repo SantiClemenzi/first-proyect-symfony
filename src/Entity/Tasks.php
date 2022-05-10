@@ -61,9 +61,10 @@ class Tasks
      *
      * @ORM\ManyToOne(targetEntity="Usuers")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      * })
      */
+
     private $user;
 
     public function getId(): ?int
@@ -131,7 +132,7 @@ class Tasks
         return $this;
     }
 
-    public function getUser(): ?Usuers
+    public function getUser()
     {
         return $this->user;
     }
@@ -142,6 +143,4 @@ class Tasks
 
         return $this;
     }
-
-
 }

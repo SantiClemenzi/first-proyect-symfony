@@ -66,7 +66,8 @@ class Usuers
     private $createdAt;
 
     /**
-     * @ORM\OneToMany(TargetEntity="App\Entity\Tasks", mappedBy="users")
+     * @ORM\OneToMany(targetEntity="Tasks", mappedBy="user")
+     * 
      */
 
     private $tasks;
