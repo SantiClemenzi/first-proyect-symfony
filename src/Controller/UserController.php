@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 use App\Entity\Usuers;
 use App\Form\RegisterType;
@@ -15,7 +16,7 @@ use App\Form\RegisterType;
 class UserController extends AbstractController
 {
     // #[Route('/user', name: 'app_user')]
-    public function register(Request $request, UserPasswordHasherInterface $hasher): Response
+    public function register(Request $request, UserPasswordHasherInterface $hasher,  ManagerRegistry $doctrine): Response
     {
         $user = new Usuers();
         $form = $this->createForm(RegisterType::class, $user);
@@ -23,16 +24,22 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
+            // creamos objeto
             $user->setRole('user');
-            $date_now = (new \DateTime())->format('d-m-y H:i:s');
-            $user->setCreatedAt($date_now);
 
-            // $encoded = $encoder->encodePassword($user, $user->getPassword());
+            // seteamos hora
+            $user->setCreatedAt(new \DateTime('now'));
+
+            // cifrado de password
             $encoded =  $hasher->hashPassword($user, $user->getPassword());
             $user->setPassword($encoded);
 
-            echo $user->getPassword().'</br>';
-            echo $user->getCreatedAt().'</br>';
+            // guardamos usuario
+            $em = $doctrine->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirectToRoute('register');
         }
 
         return $this->render('user/register.html.twig', [
