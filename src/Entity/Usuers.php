@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Usuers
@@ -12,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="usuers")
  * @ORM\Entity
  */
-class Usuers
+class Usuers implements PasswordAuthenticatedUserInterface, UserInterface
 {
     /**
      * @var int
@@ -142,12 +144,12 @@ class Usuers
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt()
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(?\DateTimeInterface $createdAt): self
+    public function setCreatedAt($createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -157,7 +159,32 @@ class Usuers
     /**
      * @return Collection|Task[]
      */
-    public function getTasks():Collection{
+    public function getTasks(): Collection
+    {
         return $this->tasks;
+    }
+    public function getUsername()
+    {
+        return $this->email;
+    }
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+    public function eraseCredentials()
+    {
+    }
+
+    public function getUserIdentifier(): string
+    {
     }
 }
