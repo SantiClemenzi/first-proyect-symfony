@@ -11,5 +11,5 @@ tasks:
     controller: App\Controller\TaskController::index
 
 users:
-    path: /users
-    controller: App\Controller\UserController::index
+    path: /register
+    controller: App\Controller\UserController::register
