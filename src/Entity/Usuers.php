@@ -204,5 +204,6 @@ class Usuers implements PasswordAuthenticatedUserInterface, UserInterface
 
     public function getUserIdentifier(): string
     {
+        return 'role';
     }
 }
