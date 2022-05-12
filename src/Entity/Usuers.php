@@ -5,8 +5,10 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+// use PHPUnit\Framework\Assert;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Usuers
@@ -36,6 +38,11 @@ class Usuers implements PasswordAuthenticatedUserInterface, UserInterface
      * @var string|null
      *
      * @ORM\Column(name="name", type="string", length=100, nullable=true)
+     * @Assert\NotBlank
+     * @Assert\Regex(
+     *      pattern = "/^[\pL\s]+$/u",
+     *      message = "El campo debe estar formado por letras"
+     * )
      */
     private $name;
 
@@ -43,6 +50,11 @@ class Usuers implements PasswordAuthenticatedUserInterface, UserInterface
      * @var string|null
      *
      * @ORM\Column(name="surname", type="string", length=100, nullable=true)
+     * @Assert\NotBlank
+     * @Assert\Regex(
+     *      pattern = "/^[\pL\s]+$/u",
+     *      message = "El campo debe estar formado por letras"
+     * )
      */
     private $surname;
 
@@ -50,6 +62,10 @@ class Usuers implements PasswordAuthenticatedUserInterface, UserInterface
      * @var string|null
      *
      * @ORM\Column(name="email", type="string", length=100, nullable=true)
+     * @Assert\NotBlank
+     * @Assert\Email(
+     *      message = "Email invalido"
+     * )
      */
     private $email;
 
@@ -57,6 +73,8 @@ class Usuers implements PasswordAuthenticatedUserInterface, UserInterface
      * @var string|null
      *
      * @ORM\Column(name="password", type="string", length=255, nullable=true)
+     * @Assert\NotBlank
+     * 
      */
     private $password;
 
