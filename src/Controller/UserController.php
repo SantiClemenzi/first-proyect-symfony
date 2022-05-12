@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 use App\Entity\Usuers;
 use App\Form\RegisterType;
@@ -25,7 +26,7 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // creamos objeto
-            $user->setRole('user');
+            $user->setRole('ROLE_USER');
 
             // seteamos hora
             $user->setCreatedAt(new \DateTime('now'));
@@ -45,5 +46,17 @@ class UserController extends AbstractController
         return $this->render('user/register.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    public function  login(AuthenticationUtils $authenticationUtils)
+    {
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render('user/login.html.twig', array(
+            'error' => $error,
+            'last_username' => $lastUsername,
+        ));
     }
 }

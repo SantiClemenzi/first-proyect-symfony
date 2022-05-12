@@ -1,17 +1,4 @@
 security:
-   # config/packages/test/security.yaml
-    # password_hashers:
-        # Use your user class name here
-        # App\Entity\Usuers:
-            # algorithm: plaintext # disable hashing (only do this in tests!)
-
-        # or use the lowest possible values
-        # App\Entity\Usuers:
-        #     algorithm: auto # This should be the same value as in config/packages/security.yaml
-        #     cost: 4 # Lowest possible value for bcrypt
-        #     time_cost: 3 # Lowest possible value for argon
-        #     memory_cost: 10 # Lowest possible value for argon
-
     enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
@@ -19,6 +6,10 @@ security:
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         users_in_memory: { memory: null }
+        proveedor:
+            entity:
+                class: App\Entity\Usuers
+                property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -26,6 +17,14 @@ security:
         main:
             lazy: true
             provider: users_in_memory
+            form_login: 
+                login_path: login
+                check_path: login
+                provider: proveedor
+
+            logout:
+                path: /logout
+                target: /login
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
