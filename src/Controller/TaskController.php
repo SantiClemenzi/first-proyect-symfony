@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 // use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Tasks;
+use \Symfony\Component\Security\Core\User\UserInterface;
 use App\Form\TaskType;
 
 class TaskController extends AbstractController
@@ -34,7 +35,7 @@ class TaskController extends AbstractController
             'task' => $task,
         ]);
     }
-    public function create(ManagerRegistry $doctrine, Request $request, \Symfony\Component\Security\Core\User\UserInterface $user)
+    public function create(ManagerRegistry $doctrine, Request $request, UserInterface $user)
     {
         $task = new Tasks;
         $form = $this->createForm(TaskType::class, $task);
@@ -56,6 +57,15 @@ class TaskController extends AbstractController
 
         return $this->render('task/create.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    public function myTask(UserInterface $user)
+    {
+        $tasks = $user->getTasks();
+ 
+        return $this->render('task/my-tasks.html.twig', [
+            'tasks' => $tasks
         ]);
     }
 }
