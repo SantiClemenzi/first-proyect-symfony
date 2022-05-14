@@ -5,28 +5,8 @@
 {% block body %}
 <div class="example-wrapper">
     <h2>Tareas de todos los usuarios✅</h2>
-    <table>
-        <tr>
-            <th>Tarea</th>
-            <th>Prioridad</th>
-            <th>Horas estimadas</th>
-            <th>Acciones</th>
-        </tr>
-        {% for task in tasks %}
-            <tr>
-                <td>{{task.title}}</td>
-                <td>{{task.priority}}</td>
-                <td>{{task.hours}}</td>
-                <td class="buttons">
-                    <a href="{{path('tasks_detail', {'id':task.id})}}" class="btn-show">Ver</a>
-                    <a href="#" class="btn-edit">Editar</a>
-                    <a href="#" class="btn-delete">Borrar</a>
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
 
-
-
+    {{ include('includes/taskList.html.twig') }}
+    
 </div>
 {% endblock %}
