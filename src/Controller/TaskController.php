@@ -34,7 +34,7 @@ class TaskController extends AbstractController
             'task' => $task,
         ]);
     }
-    public function create(Request $request)
+    public function create(ManagerRegistry $doctrine, Request $request, \Symfony\Component\Security\Core\User\UserInterface $user)
     {
         $task = new Tasks;
         $form = $this->createForm(TaskType::class, $task);
@@ -42,7 +42,16 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            var_dump($form);
+            $task->setCreatedAt(new \Datetime('now'));
+            $task->setUser($user);
+
+            // guardamos tarea en la db
+            $em = $doctrine->getManager();
+            $em->persist($task);
+            $em->flush();
+
+            // redireccionamos
+            return $this->redirectToRoute('tasks_detail', ['id' => $task->getId()]);
         }
 
         return $this->render('task/create.html.twig', [
