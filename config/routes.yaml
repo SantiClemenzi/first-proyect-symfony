@@ -10,6 +10,10 @@ tasks:
     path: /
     controller: App\Controller\TaskController::index
 
+tasks_detail:
+    path: /task/{id}
+    controller: App\Controller\TaskController::detail
+
 register:
     path: /register
     controller: App\Controller\UserController::register
