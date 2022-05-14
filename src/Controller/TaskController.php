@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 // use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Tasks;
+use App\Form\TaskType;
 
 class TaskController extends AbstractController
 {
@@ -35,7 +36,17 @@ class TaskController extends AbstractController
     }
     public function create(Request $request)
     {
-        return $this->render('task/create.html.twig', []);
+        $task = new Tasks;
+        $form = $this->createForm(TaskType::class, $task);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            var_dump($form);
+        }
+
+        return $this->render('task/create.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
-    
 }
