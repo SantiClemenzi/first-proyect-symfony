@@ -18,6 +18,10 @@ tasks_create:
     path: /create
     controller: App\Controller\TaskController::create
 
+tasks_edit:
+    path: /edit/{id}
+    controller: App\Controller\TaskController::edit
+
 myTasks:
     path: /myTask
     controller: App\Controller\TaskController::myTask

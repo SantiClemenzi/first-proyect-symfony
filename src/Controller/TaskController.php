@@ -68,4 +68,34 @@ class TaskController extends AbstractController
             'tasks' => $tasks
         ]);
     }
+
+    public function edit(Request $request, UserInterface $user, Tasks $task, ManagerRegistry $doctrine)
+    {
+        // validacion de usuario
+        if(!$user || $user->getId() != $task->getUser()->getId()){
+            return $this->redirectToRoute('tasks');
+        }
+        
+        $form = $this->createForm(TaskType::class, $task);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $task->setCreatedAt(new \Datetime('now'));
+            $task->setUser($user);
+
+            // guardamos tarea en la db
+            $em = $doctrine->getManager();
+            $em->persist($task);
+            $em->flush();
+
+            // redireccionamos
+            return $this->redirectToRoute('tasks_detail', ['id' => $task->getId()]);
+        }
+
+        return $this->render('task/create.html.twig',[
+            'edit' => true,
+            'form' => $form->createView(),
+        ]);
+    }
 }
