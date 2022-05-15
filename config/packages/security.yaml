@@ -24,7 +24,7 @@ security:
 
             logout:
                 path: /logout
-                target: /login
+                target: /
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -35,8 +35,13 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/task, roles: ROLE_USER }
+        - { path: ^/tasks, roles: ROLE_USER }
+        - { path: ^/tasks_detail, roles: ROLE_USER }
+        - { path: ^/tasks_create, roles: ROLE_USER }
+        - { path: ^/tasks_edit, roles: ROLE_USER }
+        - { path: ^/tasks_delete, roles: ROLE_USER }
+        - { path: ^/myTasks, roles: ROLE_USER }
 
 when@test:
     security:
