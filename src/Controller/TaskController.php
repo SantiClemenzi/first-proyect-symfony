@@ -82,7 +82,7 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             // guardamos tarea en la db
             $em = $doctrine->getManager();
             $em->persist($task);
@@ -96,5 +96,18 @@ class TaskController extends AbstractController
             'edit' => true,
             'form' => $form->createView(),
         ]);
+
+    }
+    public function delete(Tasks $task, UserInterface $user, ManagerRegistry $doctrine)
+    {
+        if(!$user || $user->getId() != $task->getUser()->getId()){
+            return $this->redirectToRoute('tasks');
+        }
+
+        $em = $doctrine->getManager();
+        $em->remove($task);
+        $em->flush();
+
+        return $this->redirectToRoute('tasks');
     }
 }

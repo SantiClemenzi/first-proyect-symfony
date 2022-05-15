@@ -22,6 +22,10 @@ tasks_edit:
     path: /edit/{id}
     controller: App\Controller\TaskController::edit
 
+tasks_delete:
+    path: /delete/{id}
+    controller: App\Controller\TaskController::delete
+
 myTasks:
     path: /myTask
     controller: App\Controller\TaskController::myTask
