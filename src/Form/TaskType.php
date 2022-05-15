@@ -21,6 +21,6 @@ class TaskType extends AbstractType
                 'Baja' => 'Baja'
             )))
             ->add('hours', TextType::class, array('label' => 'Tiempo estimado'))
-            ->add('submit', SubmitType::class, array('label' => 'Crear'));
+            ->add('submit', SubmitType::class, array('label' => 'Guardar'));
     }
 }

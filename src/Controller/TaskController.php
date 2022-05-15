@@ -56,6 +56,7 @@ class TaskController extends AbstractController
         }
 
         return $this->render('task/create.html.twig', [
+            'edit' => false,
             'form' => $form->createView(),
         ]);
     }
@@ -81,9 +82,7 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $task->setCreatedAt(new \Datetime('now'));
-            $task->setUser($user);
-
+            
             // guardamos tarea en la db
             $em = $doctrine->getManager();
             $em->persist($task);

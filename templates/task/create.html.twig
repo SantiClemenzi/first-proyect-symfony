@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Crear tarea{% endblock %}
+{% block title %}
+    {% if edit %}
+        Editar tarea
+    {% else %}
+        Crear tarea
+    {% endif %}
+{% endblock %}
 
 {% block body %}
 <div class="example-wrapper">
